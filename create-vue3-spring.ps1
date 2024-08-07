@@ -160,4 +160,3 @@ $step = Update-Step
 Write-Host "Proyectos frontend y backend creados con éxito."
 Write-Host "Para iniciar el proyecto frontend, navega a './$frontendProjectName' y ejecuta 'npm run dev'."
 Write-Host "Para iniciar el proyecto backend, navega a './$backendProjectName' y ejecuta 'mvn spring-boot:run'."
-Remove-Item .\create-vue3-spring.ps1
