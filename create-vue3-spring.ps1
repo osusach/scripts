@@ -4,7 +4,7 @@ param (
     [string]$backendProjectName = "spring-backend",
     [string]$javaVersion = "21",
     [int]$step = 1,
-    [int]$totalSteps = 7
+    [int]$totalSteps = 5
 )
 
 # Función para mostrar el progreso
@@ -126,10 +126,9 @@ if ($skipJavaBuild) {
     Set-Location -Path $backendDir
     Write-Host "Instalando dependencias del backend y compilando..."
     mvn clean install
+    # Regresar al directorio raíz
+    Set-Location -Path ..
 }
-
-# Regresar al directorio raíz
-Set-Location -Path ..
 
 $step = Update-Step
 Write-Host "Proyectos frontend y backend creados con éxito."
