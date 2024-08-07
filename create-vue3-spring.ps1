@@ -83,6 +83,7 @@ Write-Host "Instalando dependencias del frontend..."
 npm install
 
 # Agregar axios para solicitudes http al backend
+Write-Host "Instalando axios para que podái conectarte a tu backend..."
 npm install axios
 
 Write-Host -BackgroundColor DarkYellow
