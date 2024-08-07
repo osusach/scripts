@@ -36,10 +36,14 @@ function Show-Menu {
         [string[]]$options
     )
 
+    Write-Host
+
     # Mostrar las opciones del menú
     for ($i = 0; $i -lt $options.Length; $i++) {
-        Write-Host "$($i + 1). $($options[$i])"
+        Write-Host " $($i + 1). $($options[$i])"
     }
+
+    Write-Host 
 
     # Leer la selección del usuario
     $selection = Read-Host "Seleccione una opción por número"
@@ -56,7 +60,6 @@ function Show-Menu {
 $step = Update-Step
 # Verificar e instalar Node.js si es necesario
 Get-Program -command "node" -installScript "winget install OpenJS.NodeJS"
-
 # Verificar e instalar create-vite si es necesario
 Get-Program -command "create-vite" -installScript "npm install -g create-vite"
 
@@ -109,6 +112,7 @@ Get-Program -command "mvn" -installScript "winget install Apache.Maven"
 
 # Crear el proyecto backend con Spring Boot usando Spring Initializr
 Write-Host "Creando el proyecto backend con Spring Boot..."
+Start-Sleep -Milliseconds 100
 $backendDir = "./$backendProjectName"
 Invoke-WebRequest -Uri "https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=3.3.2&baseDir=$backendProjectName&groupId=com.example&artifactId=demo&name=demo&description=Demo+project+for+Spring+Boot&packageName=com.example.demo&packaging=jar&javaVersion=$javaVersion&dependencies=data-jpa%2Cweb%2Cpostgresql%2Clombok" -OutFile "backend.zip"
 
@@ -134,3 +138,4 @@ $step = Update-Step
 Write-Host "Proyectos frontend y backend creados con éxito."
 Write-Host "Para iniciar el proyecto frontend, navega a './$frontendProjectName' y ejecuta 'npm run dev'."
 Write-Host "Para iniciar el proyecto backend, navega a './$backendProjectName' y ejecuta 'mvn spring-boot:run'."
+# Remove-Item .\create-vue3-spring.ps1
