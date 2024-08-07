@@ -16,7 +16,7 @@ function Update-Step {
 }
 
 # Función para verificar la instalación de una herramienta
-function Check-Install {
+function Get-Program {
     param (
         [string]$command,
         [string]$installScript
@@ -53,18 +53,18 @@ function Show-Menu {
     }
 }
 
-$step = Next-Step
+$step = Update-Step
 # Verificar e instalar Node.js si es necesario
-Check-Install -command "node" -installScript "winget install OpenJS.NodeJS"
+Get-Program -command "node" -installScript "winget install OpenJS.NodeJS"
 
 # Verificar e instalar create-vite si es necesario
-Check-Install -command "create-vite" -installScript "npm install -g create-vite"
+Get-Program -command "create-vite" -installScript "npm install -g create-vite"
 
 # Crear el proyecto frontend con Vite y Vue.js
 Write-Host "Creando el proyecto frontend con Vite y Vue.js..."
 npx create-vite $frontendProjectName --template vue
 
-$step = Next-Step
+$step = Update-Step
 # Navegar al directorio del proyecto frontend y instalar dependencias
 Set-Location -Path $frontendProjectName
 Write-Host "Instalando dependencias del frontend..."
@@ -99,13 +99,13 @@ switch ($selection) {
     }
 }
 
-$step = Next-Step
+$step = Update-Step
 # Regresar al directorio raíz
 Set-Location -Path ..
 
 # Verificar e instalar JDK y Maven si es necesario
-Check-Install -command "java" -installScript "winget install Oracle.OpenJDK.$javaVersion"
-Check-Install -command "mvn" -installScript "winget install Apache.Maven"
+Get-Program -command "java" -installScript "winget install Oracle.OpenJDK.$javaVersion"
+Get-Program -command "mvn" -installScript "winget install Apache.Maven"
 
 # Crear el proyecto backend con Spring Boot usando Spring Initializr
 Write-Host "Creando el proyecto backend con Spring Boot..."
@@ -118,7 +118,7 @@ Remove-Item backend.zip
 Move-Item -Path "$backendProjectName/$backendProjectName/*" -Destination "$backendProjectName" -Force
 Remove-Item "$backendProjectName/$backendProjectName"
 
-$step = Next-Step
+$step = Update-Step
 if ($skipJavaBuild) {
     Write-Host "Omitiendo build de java..."
 } else {
@@ -131,7 +131,7 @@ if ($skipJavaBuild) {
 # Regresar al directorio raíz
 Set-Location -Path ..
 
-$step = Next-Step
+$step = Update-Step
 Write-Host "Proyectos frontend y backend creados con éxito."
 Write-Host "Para iniciar el proyecto frontend, navega a './$frontendProjectName' y ejecuta 'npm run dev'."
 Write-Host "Para iniciar el proyecto backend, navega a './$backendProjectName' y ejecuta 'mvn spring-boot:run'."
