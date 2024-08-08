@@ -84,6 +84,31 @@ function Show-Question {
     }
 }
 
+Write-Host "                          
+                           +++++++                           
+                        +++++++++++++                        
+                    +++++++++++++++++++++                    
+                +++++++++++++++++++++++++++++                
+             ++++++++++++    +++    ++++++++++++             
+             +++++++++++ ++  +++  ++ +++++++++++             
+              +++++++++ +++       +++ +++++++++              
+              ++++++++    +++++++++    ++++++++              
+              ++++++ +++++++++++++++++++  +++++              
+              +++++ ++++    +++++    +++++ ++++              
+           +++++++ ++++++ +++++++++ +++++++ ++++++           
+        +++++++++ +++++++++ +++++  +++++++++ ++++++++        
+       +++++++++++ +++++++++ +++ +++++++++ +++++++++++       
+        ++++++++  ++ +++++++++ +++++++++ ++  ++++++++        
+         +++++++ ++++  ++++++   +++++++ ++++ +++++++         
+          +++++++ +++++++++++++++++++++++++ +++++++          
+           +++++++ +++++++++++++++++++++++ +++++++           
+             ++++++ +++++++++++++++++++++ ++++++             
+              ++++++   ++++++++++++++++  ++++++              
+               ++++++++++++       ++++++++++++               
+                +++++++++++++++++++++++++++++
+                           OSUSACH
+" -ForegroundColor DarkYellow
+
 $step = Update-Step
 
 $projectName = Read-Host -Prompt "> Ingresa el nombre del proyecto: "
@@ -154,7 +179,6 @@ Write-Host
 
 # Verificar e instalar JDK y Maven si es necesario
 Get-Program -command "java" -installScript "winget install Oracle.OpenJDK.$javaVersion"
-Get-Program -command "mvn" -installScript "winget install Apache.Maven"
 Write-Host
 # Crear el proyecto backend con Spring Boot usando Spring Initializr
 Write-Host "Creando el proyecto backend con Spring Boot..."
