@@ -114,8 +114,8 @@ Get-Program -command "node" -installScript "winget install OpenJS.NodeJS"
 Get-Program -command "create-vite" -installScript "npm install -g create-vite"
 
 # Crear el proyecto frontend con Vite y Vue.js
-Write-Host "Creando el proyecto frontend con Vite y Vue.JS..."
-npx create-vite $frontendProjectName --template vue
+Write-Host "Creando el proyecto frontend con Vite y React..."
+npx create-vite $frontendProjectName --template react
 
 $step = Update-Step
 # Navegar al directorio del proyecto frontend y instalar dependencias

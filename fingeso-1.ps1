@@ -1,18 +1,7 @@
 
 [string]$javaVersion = "17"
 [int]$step = 1
-[int]$totalSteps = 5
-
-function Show-Osusach {
-    param (
-        [string]$message
-    )
-    Write-Host -BackgroundColor DarkYellow
-    Write-Host -BackgroundColor Black
-    Write-Host "$message" -NoNewline
-    Write-Host -BackgroundColor DarkYellow
-    Write-Host 
-}
+[int]$totalSteps = 6
 
 # Función para mostrar el progreso
 function Update-Step {
@@ -125,8 +114,8 @@ Get-Program -command "node" -installScript "winget install OpenJS.NodeJS"
 Get-Program -command "create-vite" -installScript "npm install -g create-vite"
 
 # Crear el proyecto frontend con Vite y Vue.js
-Write-Host "Creando el proyecto frontend con Vite y React..."
-npx create-vite $frontendProjectName --template react
+Write-Host "Creando el proyecto frontend con Vite y Vue..."
+npx create-vite $frontendProjectName --template vue
 
 $step = Update-Step
 # Navegar al directorio del proyecto frontend y instalar dependencias
@@ -135,10 +124,12 @@ Write-Host "Instalando dependencias del frontend..."
 npm install
 
 # Agregar axios para solicitudes http al backend
-Write-Host "Instalando axios para que podái conectarte a tu backend..."
+Write-Host
+Write-Host "Instalando axios para que podái conectarte a tu backend..." -ForegroundColor Red
 npm install axios
 
-Show-Osusach -message "Selecciona un framework de CSS"
+Write-Host
+Write-Host "Selecciona un framework de CSS" -ForegroundColor DarkYellow
 
 # Mostrar el menú para opciones adicionales
 $options = @("Agregar Tailwind CSS", "Agregar Bootstrap", "No agregar nada")
@@ -182,29 +173,43 @@ Get-Program -command "java" -installScript "winget install Oracle.OpenJDK.$javaV
 Write-Host
 # Crear el proyecto backend con Spring Boot usando Spring Initializr
 Write-Host "Creando el proyecto backend con Spring Boot..."
+Write-Host
 
 $groupIdUser = Read-Host -Prompt "> Ingresa un groupID: "
 $groupId = "osusach.$groupIdUser" # spam
 
-Show-Osusach -message "Elige el tipo de proyecto"
+Write-Host
+Write-Host "Elige el tipo de proyecto" -ForegroundColor DarkYellow
 
 $options = @("maven-project", "gradle-project", "gradle-project-kotlin")
 $projectType = Show-Menu -options $options
 
+Write-Host
+Write-Host "Qué base de datos vas a usar"
+$options = @("PostgreSQL", "MySQL")
+$database = Show-Menu -options $options
+$databaseDriver = "%2C"
+switch ($database) {
+    "PostgreSQL" {
+        Show-Question -prompt "> Quieres instalar PostgreSQL? (s/n)" -yes "winget install PostgreSQL.PostgreSQL.14 -e" -no "Write-Host 'Omitiendo postgres'"
+        $databaseDriver = $databaseDriver + "postgresql"
+    }
+    "MySQL" { 
+        Show-Question -prompt "> Quieres instalar MySQL? (s/n)" -yes "winget install Oracle.MySQL -e" -no "Write-Host 'Omitiendo mysql'"
+        $databaseDriver = $databaseDriver + "mysql"
+    }
+}
+
 $packageName = "$groupId.$projectName"
 
 $backendDir = "./$backendProjectName"
-Invoke-WebRequest -Uri "https://start.spring.io/starter.zip?type=$projectType&language=java&bootVersion=3.3.2&baseDir=$backendProjectName&groupId=$groupId&artifactId=$projectName&name=$projectName&description=Backend+project+for+Spring+Boot&packageName=$packageName&packaging=jar&javaVersion=$javaVersion&dependencies=data-jpa%2Cweb%2Cpostgresql%2Clombok" -OutFile "backend.zip"
+Invoke-WebRequest -Uri "https://start.spring.io/starter.zip?type=$projectType&language=java&bootVersion=3.3.2&baseDir=$backendProjectName&groupId=$groupId&artifactId=$projectName&name=$projectName&description=Backend+project+for+Spring+Boot&packageName=$packageName&packaging=jar&javaVersion=$javaVersion&dependencies=data-jpa%2Cweb%2Clombok$databaseDriver" -OutFile "backend.zip"
 
 # Descomprimir el archivo
 Expand-Archive -Path backend.zip -DestinationPath $backendDir
 Remove-Item backend.zip
 Move-Item -Path "$backendProjectName/$backendProjectName/*" -Destination "$backendProjectName" -Force
 Remove-Item "$backendProjectName/$backendProjectName"
-
-$step = Update-Step
-
-Show-Question -prompt "> Quieres instalar postgresSQL? (s/n)" -yes "winget install PostgreSQL.PostgreSQL.14 -e" -no "Write-Host 'Omitiendo postgres'"
 
 $step = Update-Step
 
