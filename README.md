@@ -8,7 +8,7 @@ Los siguientes scripts fueron creados en 2024 y pueden estar desactualizados si 
 
 Para instalar software los scripts usan winget, una herramienta nativa en Windows 10/11 desde 2020
 
-Si estás usando una versión de Windows 10 antigua, puede ser que necesites instalarlo: https://aka.ms/getwinget
+Si estás usando una versión antigua de Windows 10, puede ser que necesites instalarlo: https://aka.ms/getwinget
 
 ## Scripts para FINGESO
 
